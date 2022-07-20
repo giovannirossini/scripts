@@ -1,17 +1,15 @@
-import pika
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__),"../"))
+from modules.rabbitmq.connector import RabbitMQ
 
-credentials = pika.PlainCredentials('guest', 'guest')
-parameters = pika.ConnectionParameters('localhost', 5672, '/', credentials)
-connection = pika.BlockingConnection(parameters)
-queueName='to-be-processed'
+def callback(self, channel, method, properties, body):
+    print(f"Received {body}, message properties are {properties}")
 
-def callback(channel, method, properties, body):
-  print("Received %r, message properties are %r" % (body, properties))
+amqp = RabbitMQ()
+connection = amqp.connect('localhost', 5672, 'guest', 'guest')
+channel =  amqp.create_channel(connection)
 
+queue='some-queue'
 
-channel = connection.channel()
-channel.queue_declare(queue=queueName)
-channel.basic_consume(
-  queue=queueName, on_message_callback=callback, auto_ack=True
-)
-channel.start_consuming()
+amqp.consume(channel, queue, callback)

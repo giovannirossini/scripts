@@ -1,32 +1,20 @@
-import pika
 from datetime import datetime
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__),"../"))
+from modules.rabbitmq.connector import RabbitMQ
 
-# Connection init
-credentials = pika.PlainCredentials('guest', 'guest')
-parameters = pika.ConnectionParameters('localhost', 5672, '/', credentials)
-connection = pika.BlockingConnection(parameters)
+amqp = RabbitMQ()
+connection = amqp.connect('localhost', 5672, 'guest', 'guest')
+channel =  amqp.create_channel(connection)
 
-def send(channel, queue, message, headers):
-  channel.queue_declare(queue=queue)
-  channel.basic_publish(
-    '',
-    queue,
-    message,
-    pika.BasicProperties(content_type=contentType,
-                        delivery_mode=deliveryMode,
-                        headers=headers
-                        )
-  )
-
-  print("Message %s published!" % message)
-
-channel = connection.channel()
-queueName='to-be-processed'
-contentType='application/octet-stream'
-deliveryMode=1 # 1 - Non-Persistent / 2 - Persistent
+queue='some-queue'
 headers= {
   "timestamp": str(datetime.timestamp(datetime.now()))
 }
-payload = "Message published with Python!"
-send(channel,queueName, payload, headers)
+
+payload = "{'name': 'John Doe', 'age': '26'}"
+
+amqp.publish(channel,queue, payload, headers)
+
 connection.close()
