@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/giovannirossini/curso/advanced/mysql_database/lib"
+	"github.com/giovannirossini/scripts/go/mysql_database/lib"
 
-	"github.com/giovannirossini/curso/advanced/mysql_database/handler"
+	"github.com/giovannirossini/scripts/go/mysql_database/handler"
 )
 
 func init() {

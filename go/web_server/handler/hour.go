@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/giovannirossini/curso/advanced/web_server/models"
+	"github.com/giovannirossini/scripts/go/web_server/models"
 )
 
 // Hour is the handler from request to route /time

@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/giovannirossini/curso/intermediary/write_files/models"
+	"github.com/giovannirossini/scripts/go/write_files/models"
 )
 
 func main() {

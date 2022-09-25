@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/giovannirossini/curso/advanced/mysql_database/lib"
-	"github.com/giovannirossini/curso/advanced/mysql_database/models"
+	"github.com/giovannirossini/scripts/go/mysql_database/lib"
+	"github.com/giovannirossini/scripts/go/mysql_database/models"
 )
 
 // Where is the handler of request to route /where

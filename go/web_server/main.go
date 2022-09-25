@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/giovannirossini/curso/advanced/web_server/handler"
+	"github.com/giovannirossini/scripts/go/web_server/handler"
 )
 
 func main() {

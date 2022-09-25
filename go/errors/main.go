@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/giovannirossini/curso/basic/errors/models"
+	"github.com/giovannirossini/scripts/go/errors/models"
 )
 
 func main() {

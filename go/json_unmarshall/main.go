@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/giovannirossini/curso/advanced/json_unmarshall/models"
+	"github.com/giovannirossini/scripts/go/json_unmarshall/models"
 )
 
 func main() {

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/giovannirossini/curso/basic/maps/models"
+	"github.com/giovannirossini/scripts/go/maps/models"
 )
 
 var cache map[string]models.Realty

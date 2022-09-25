@@ -10,7 +10,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/giovannirossini/curso/intermediary/goroutines/models"
+	"github.com/giovannirossini/scripts/go/goroutines/models"
 )
 
 var orchestrator sync.WaitGroup

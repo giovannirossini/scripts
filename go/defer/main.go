@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/giovannirossini/curso/intermediary/defer/models"
+	"github.com/giovannirossini/scripts/go/defer/models"
 )
 
 func main() {

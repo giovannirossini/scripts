@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/giovannirossini/curso/basic/structs/basic"
+	"github.com/giovannirossini/scripts/go/structs/basic"
 )
 
 func main() {

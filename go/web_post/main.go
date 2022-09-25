@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/giovannirossini/curso/advanced/web_post/models"
+	"github.com/giovannirossini/scripts/go/web_post/models"
 )
 
 func main() {

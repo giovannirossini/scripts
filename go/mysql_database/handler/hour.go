@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/giovannirossini/curso/advanced/mysql_database/models"
+	"github.com/giovannirossini/scripts/go/mysql_database/models"
 )
 
 // Hour is the handler from request to route /time

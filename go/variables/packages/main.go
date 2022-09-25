@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/giovannirossini/curso/basic/variables/packages/phone"
+	"github.com/giovannirossini/scripts/go/variables/packages/phone"
 )
 
 // UserName é o nome do usuário do sistema
