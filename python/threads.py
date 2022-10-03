@@ -7,7 +7,7 @@ def task(id):
     print('Done')
 
 
-print("Starting new tasks...")
+print('Starting new tasks...')
 start_time = perf_counter()
 
 for i in range(1,11):
@@ -16,7 +16,7 @@ for i in range(1,11):
 end_time = perf_counter()
 whithout_thread = f'It took {end_time- start_time: 0.2f} second(s) to complete all tasks without using threads.'
 
-print("Starting new tasks...")
+print('Starting new tasks...')
 start_time = perf_counter()
 
 threads = []
