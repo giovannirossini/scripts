@@ -1,0 +1,7 @@
+version: '3.9'
+services:
+  selenium:
+    build: .
+    command: sleep infinity
+    volumes:
+      - $PWD:/selenium
