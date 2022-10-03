@@ -15,5 +15,5 @@ def send_message(message, channel):
         return "Error: " + str(e)
 
 if __name__ == '__main__':
-    message = "MY-MESSAGE"
+    message = "My message to this channel is about..."
     send_message(message, "CH4NN3L_EX4MPL3_1D")
