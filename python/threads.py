@@ -14,7 +14,7 @@ if __name__ == '__main__':
         task(i)
 
     end_time = perf_counter()
-    whithout_thread = f'It took {end_time- start_time: 0.2f} second(s) to complete all tasks without using threads.'
+    whithout_thread = f'It took {end_time - start_time: 0.2f} second(s) to complete all tasks without using threads.'
 
     print('Starting new tasks...')
     start_time = perf_counter()
@@ -31,4 +31,4 @@ if __name__ == '__main__':
 
     end_time = perf_counter()
     print(whithout_thread)
-    print(f'It took {end_time- start_time: 0.2f} second(s) to complete all tasks using threads.')
+    print(f'It took {end_time - start_time: 0.2f} second(s) to complete all tasks using threads.')
