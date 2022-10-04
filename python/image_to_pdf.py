@@ -6,4 +6,5 @@ def image_to_pdf(input_file, output_file):
     Pdf.image(input_file)
     Pdf.output(output_file, "F")
 
-image_to_pdf("input.png","output.pdf")
+if __name__ == '__main__':
+    image_to_pdf("input.png","output.pdf")
