@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # How to run:
-# $ ./git_stats.sh "Jan 01 2022" > stats.csv
+# $ bash git_stats.sh "Jan 01 2022" > stats.csv
 # will return the data from all repositories in the path since January 1st and create a CSV.
 
 BEGIN_DATE=$1
