@@ -3,7 +3,7 @@ import csv
 
 boto3.setup_default_session(profile_name='default')
 dynamodb = boto3.resource("dynamodb")
-table = dynamodb.Table("Users")
+table = dynamodb.Table("users")
 
 users = []
 response = table.scan()
