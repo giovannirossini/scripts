@@ -36,13 +36,13 @@ while not game_over:
         if event.type == pg.QUIT:
             game_over = True
         if event.type == pg.KEYDOWN:
-            if event.key == pg.K_UP and snake_dir != (0, tile_size):
+            if (event.key == pg.K_UP or event.key == pg.K_w) and snake_dir != (0, tile_size):
                 snake_dir = (0, -tile_size)
-            if event.key == pg.K_DOWN and snake_dir != (0, -tile_size):
+            if (event.key == pg.K_DOWN or event.key == pg.K_s) and snake_dir != (0, -tile_size):
                 snake_dir = (0, tile_size)
-            if event.key == pg.K_LEFT and snake_dir != (tile_size, 0):
+            if (event.key == pg.K_LEFT or event.key == pg.K_a) and snake_dir != (tile_size, 0):
                 snake_dir = (-tile_size, 0)
-            if event.key == pg.K_RIGHT and snake_dir != (-tile_size, 0):
+            if (event.key == pg.K_RIGHT or event.key == pg.K_d) and snake_dir != (-tile_size, 0):
                 snake_dir = (tile_size, 0)
 
     screen.fill('black')
@@ -58,7 +58,7 @@ while not game_over:
         screen.blit(score_text, score_text_rect)
         screen.blit(game_over_text, game_over_text_rect)
         if event.type == pg.KEYDOWN:
-            if event.key == pg.K_RETURN or event.key == pg.K_SPACE:
+            if event.key == pg.K_RETURN:
                 snake.center = get_random_position()
                 snake_dir = (0, 0)
                 time, snake_speed = 0, 110
@@ -66,13 +66,14 @@ while not game_over:
                 snake_body = [snake.copy()]
                 score = 0
                 self_collision = False
-            if event.key == pg.K_ESCAPE or event.key == pg.K_q:
+            if event.key == pg.K_ESCAPE:
                 game_over = True
     if snake.center == food.center:
-        food.center = get_random_position()
+        food.center = get_random_position() if food.center not in [body.center for body in snake_body] else get_random_position()
         length += 1
         score += 1
-        snake_speed = max(30, snake_speed - 3)
+        snake_speed = max(30, snake_speed - 3) if snake_speed > 60 else snake_speed - 1
+        print(snake_speed)
 
     time_now = pg.time.get_ticks()
     if time_now - time > snake_speed:
