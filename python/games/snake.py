@@ -10,6 +10,59 @@ def get_food_position(food):
         food.center = get_random_position()
     return food.center
 
+def show_menu(screen):
+    # Set the font and font size
+    # pg.font.init()
+    font = pg.font.Font(None, 36)
+
+    # Set up the menu options
+    menu_options = ['Easy', 'Medium', 'Hard', 'Quit']
+    menu_length = len(menu_options)
+
+    # Set up the menu cursor
+    cursor_pos = 0
+
+    # Loop until the user selects an option
+    while True:
+        # Handle events
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                exit()
+            elif event.type == pg.KEYDOWN:
+                if event.key == pg.K_UP:
+                    cursor_pos = (cursor_pos - 1) % menu_length
+                elif event.key == pg.K_DOWN:
+                    cursor_pos = (cursor_pos + 1) % menu_length
+                elif event.key == pg.K_RETURN:
+                    return menu_options[cursor_pos]
+
+        # Draw the menu options
+        screen.fill('black')
+
+        for i, option in enumerate(menu_options):
+            if i == cursor_pos:
+                color = 'red'
+            else:
+                color = 'white'
+            text = font.render(option, True, color)
+            text_rect = text.get_rect(center=(screen.get_width()/2, 100 + i*50))
+            screen.blit(text, text_rect)
+
+        # Update the screen
+        pg.display.flip()
+
+def insert_scoreboard(score):
+    scoreboard = get_scoreboard()
+
+    scoreboard.append(score)
+    with open('/tmp/.snake.scoreboard', 'w') as f:
+        f.write(str(scoreboard))
+
+def get_scoreboard():
+    with open('/tmp/.snake.scoreboard', 'r') as f:
+        scores = list(f.read())
+        return scores
+
 """ Screen Configurations """
 window = 400
 tile_size = 15
@@ -22,7 +75,22 @@ pg.font.init()
 
 """ Game Configurations """
 get_random_position = lambda: (randrange(*range), randrange(*range))
-time, snake_speed = 0, 110
+time, snake_speed = 0, 0
+start_screen = True
+mode = {
+    'easy': {
+        'snake_speed': 150,
+        'infinite': True,
+    },
+    'medium': {
+        'snake_speed': 110,
+        'infinite': False,
+    },
+    'hard': {
+        'snake_speed': 70,
+        'infinite': False,
+    },
+}
 snake_pos = get_random_position()
 snake = pg.rect.Rect([0, 0, tile_size - 2, tile_size - 2])
 snake.center = get_random_position()
@@ -61,46 +129,73 @@ while not game_over:
             if (event.key == pg.K_RIGHT or event.key == pg.K_d) and snake_dir != (-tile_size, 0):
                 snake_dir = (tile_size, 0)
 
-    screen.fill('black')
-    pg.draw.rect(screen, food_color, food)
-    [pg.draw.rect(screen, snake_color, body) for body in snake_body]
-
-    """ Game Over Conditions """
-    if snake.center in [body.center for body in snake_body[:-1]]:
-        self_collision = True
-
-    if snake.left < 0 or snake.right > window or snake.top < 0 or snake.bottom > window or self_collision:
-        score_text = score_font.render(f'Score: {score}', True, score_color)
-        score_text_rect = score_text.get_rect(center=(window/2, window/2 + 33))
+    """ Start Screen """
+    if start_screen:
+        game_mode = show_menu(screen).lower()
+        if game_mode == 'quit':
+            screen.fill('black')
+            game_over = True
+        else:
+            snake_speed = mode[game_mode]['snake_speed']
+            start_screen = False
+            infinite = mode[game_mode]['infinite']
+            snake.center = get_random_position()
+            snake_dir = (0, 0)
+            time = 0
+            length = 1
+            snake_body = [snake.copy()]
+            score = 0
+            self_collision = False
+    else:
         screen.fill('black')
-        screen.blit(score_text, score_text_rect)
-        screen.blit(game_over_text, game_over_text_rect)
-        if event.type == pg.KEYDOWN:
-            if event.key == pg.K_RETURN:
-                snake.center = get_random_position()
-                snake_dir = (0, 0)
-                time, snake_speed = 0, 110
-                length = 1
-                snake_body = [snake.copy()]
-                score = 0
-                self_collision = False
-            if event.key == pg.K_ESCAPE:
-                game_over = True
+        pg.draw.rect(screen, food_color, food)
+        [pg.draw.rect(screen, snake_color, body) for body in snake_body]
 
-    """ Game Logic """
-    if snake.center == food.center:
-        food.center = get_food_position(food)
-        length += 1
-        score += 1
-        snake_speed = max(30, snake_speed - 3) if snake_speed > 60 else snake_speed - 1
+        """ Game Over Conditions """
+        if snake.center in [body.center for body in snake_body[:-1]]:
+            self_collision = True
 
-    time_now = pg.time.get_ticks()
+        if not infinite:
+            if snake.left < 0 or snake.right > window or snake.top < 0 or snake.bottom > window or self_collision:
+                insert_scoreboard(score)
+                score_text = score_font.render(f'Score: {score}', True, score_color)
+                score_text_rect = score_text.get_rect(center=(window/2, window/2 + 33))
+                screen.fill('black')
+                screen.blit(score_text, score_text_rect)
+                screen.blit(game_over_text, game_over_text_rect)
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_RETURN:
+                        start_screen = True
+                    if event.key == pg.K_ESCAPE:
+                        game_over = True
+        else:
+            if snake.left < 0:
+                snake.left = window - tile_size - 4
+                print(snake.left)
+            if snake.right > window:
+                snake.right = tile_size + 4
+            if snake.top < 0:
+                snake.top = window - tile_size - 4
+            if snake.bottom > window:
+                print(window, snake.bottom)
+                snake.bottom = tile_size + 4
+            print(snake.center, food.center)
 
-    if time_now - time > snake_speed:
-        time = time_now
-        snake.move_ip(snake_dir)
-        snake_body.append(snake.copy())
-        snake_body = snake_body[-length:]
+        """ Game Logic """
+        if snake.center == food.center:
+            print('food eaten')
+            food.center = get_food_position(food)
+            length += 1
+            score += 1
+            snake_speed = max(30, snake_speed - 3) if snake_speed > 60 else snake_speed - 1
 
-    pg.display.flip()
-    clock.tick(60)
+        time_now = pg.time.get_ticks()
+
+        if time_now - time > snake_speed:
+            time = time_now
+            snake.move_ip(snake_dir)
+            snake_body.append(snake.copy())
+            snake_body = snake_body[-length:]
+
+        pg.display.flip()
+        clock.tick(60)
