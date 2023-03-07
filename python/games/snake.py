@@ -3,8 +3,7 @@ import pygame as pg
 from random import randrange
 import csv
 from datetime import datetime
-import os
-
+import operator
 
 """ Functions """
 def get_food_position(food):
@@ -151,7 +150,7 @@ while not game_over:
                 scoreboard = [['No Scores Yet', '']]
                 max_width = 0
             else:
-                scoreboard.sort(key=lambda x: x[1], reverse=True)
+                scoreboard.sort(key=lambda x:  int(x[1]), reverse=True)
                 max_width = max([score_font.render(date, True, (255, 255, 255)).get_width() for date, score in scoreboard])
             screen.fill('black')
             x = 25
