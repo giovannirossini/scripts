@@ -3,7 +3,10 @@ import pygame as pg
 from random import randrange
 import csv
 from datetime import datetime
-import operator
+import os
+
+home_dir = os.path.expanduser('~')
+file_path = os.path.join(home_dir, '.snake.scoreboard')
 
 """ Functions """
 def get_food_position(food):
@@ -59,18 +62,18 @@ def insert_scoreboard(score):
     scoreboard = get_scoreboard() if get_scoreboard() else []
     date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     scoreboard.append([date, score])
-    with open('/tmp/.snake.scoreboard', 'w', newline='') as file:
+    with open(file_path, 'w', newline='') as file:
         writer = csv.writer(file)
         for row in scoreboard:
             writer.writerow(row)
 
 def get_scoreboard():
     try:
-        with open('/tmp/.snake.scoreboard', 'r') as file:
+        with open(file_path, 'r') as file:
             reader = csv.reader(file)
             return list(reader)
     except FileNotFoundError:
-        with open('/tmp/.snake.scoreboard', 'w', newline='') as file:
+        with open(file_path, 'w', newline='') as file:
             pass
 
 
